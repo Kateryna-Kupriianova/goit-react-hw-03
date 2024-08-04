@@ -1,40 +1,66 @@
 import { useState } from "react";
+import css from "./ContactForm.module.css"
+import { nanoid } from "nanoid";
+
+
  
 const ContactForm = ({ setContacts }) => {
-            const [name, setName] = useState('');
-        const [number, setNumber] = useState('');
+    const [name, setName] = useState('');
+    const [number, setNumber] = useState('');
+    
 
-        const handleSubmit = (e) => {
-            e.preventDefault();
-            setContacts(prevContacts => [
-                ...prevContacts,
-                { id: `id-${prevContacts.length + 1}`, name, number }
-            ]);
-            setName('');
-            setNumber('');
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const newContact = {
+            id: nanoid(),
+            name,
+            number
         };
-        return (
-            <div>
-                <form onSubmit={handleSubmit}>
-                    <input
+        setContacts(prevContacts => [
+            ...prevContacts, newContact
+             
+        ]);
+        
+        setName('');
+        setNumber('');
+        console.log("submit");
+        console.log(newContact);
+        
+    };
+
+    
+    
+
+    return (
+        <div>
+            <form className={css.form} onSubmit={handleSubmit}>
+                <label className={css.label}>
+                        <span>Name</span>
+                        <input className={css.inputForm}
                         type="text"
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="Name"
+                        onChange={(event) => setName(event.target.value)}
+                        placeholder=""
                         required
-                    />
-                    <input
-                        type="text"
+                        />
+                </label>
+                <label className={css.label}>
+                        <span>Number</span>
+                        <input className={css.inputForm}
+                        type="tel"
                         value={number}
-                        onChange={(e) => setNumber(e.target.value)}
-                        placeholder="Number"
+                        onChange={(event) => setNumber(event.target.value)}
+                        placeholder=""
                         required
-                    />
-                    <button type="submit">Add Contact</button>
-                </form>
-            </div>
-        );
-    }
+                        />
+                </label>
+                <button className={css.ContactFormBtn} type="submit">Add Contact</button>
+            </form>
+        </div>
+    );
+
+}
 
  
  export default ContactForm;
