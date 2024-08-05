@@ -1,62 +1,62 @@
-import { useState } from "react";
+
 import css from "./ContactForm.module.css"
 import { nanoid } from "nanoid";
+import { Formik, Form, Field } from 'formik';
 
 
  
 const ContactForm = ({ setContacts }) => {
-    const [name, setName] = useState('');
-    const [number, setNumber] = useState('');
     
+    const INITIAL_VALUES = {
+        name: "",
+        number: ""
+    }
 
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+   
+
+    const handleSubmit = (values, actions) => {
         const newContact = {
             id: nanoid(),
-            name,
-            number
+            name: values.name,
+            number: values.number
         };
         setContacts(prevContacts => [
             ...prevContacts, newContact
              
         ]);
-        
-        setName('');
-        setNumber('');
+        actions.resetForm();
         console.log("submit");
-        console.log(newContact);
-        
-    };
-
-    
+		console.log(newContact);
+		
+	};
     
 
     return (
         <div>
-            <form className={css.form} onSubmit={handleSubmit}>
-                <label className={css.label}>
+            <Formik initialValues={INITIAL_VALUES} onSubmit={handleSubmit}>
+                <Form className={css.form} >
+                    <label className={css.label}>
                         <span>Name</span>
-                        <input className={css.inputForm}
-                        type="text"
-                        value={name}
-                        onChange={(event) => setName(event.target.value)}
-                        placeholder=""
-                        required
+                        <Field className={css.inputForm}
+                            type="text"
+                            name="name"
+                            placeholder=""
+                            required
                         />
-                </label>
-                <label className={css.label}>
+                    </label>
+                    <label className={css.label}>
                         <span>Number</span>
-                        <input className={css.inputForm}
-                        type="tel"
-                        value={number}
-                        onChange={(event) => setNumber(event.target.value)}
-                        placeholder=""
-                        required
+                        <Field className={css.inputForm}
+                            type="tel"
+                            name="number"
+                            placeholder=""
+                            required
                         />
-                </label>
-                <button className={css.ContactFormBtn} type="submit">Add Contact</button>
-            </form>
+                    </label>
+                     <button className={css.ContactFormBtn} type="submit">Add Contact</button>
+                </Form>
+            </Formik>
         </div>
     );
 

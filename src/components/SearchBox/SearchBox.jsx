@@ -1,24 +1,17 @@
-import { useState } from "react";
 
-const SearchBox = () => {
-    const [values, setValues] = useState({
-    name: ""
+import css from "./SearchBox.module.css"
+
+const SearchBox = ({ filterValue, handleContactSearch }) => {
     
-    });
     
-    const handleContactSearch = (evt) => {
-    setValues({
-      ...values,
-      name: evt.target.value,
-    });
-  };
+   
   return (
-      <div>
+      <div className={css.searchBoxContainer}>
           <h2>Find contacts by name</h2>
-          <input
+          <input className={css.searchInput}
               type="text"
               name="name"
-              value={values.name}
+              value={filterValue}
               onChange={handleContactSearch}>
             </input>
       </div>
