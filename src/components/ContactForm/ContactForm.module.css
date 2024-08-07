@@ -28,7 +28,14 @@
 
 }
 
+.inputForm:hover {
+    border-color: #007bff;
+}
 
+.inputForm:focus {
+    border-color: #007bff;
+    outline: none;
+}
 
 .ContactFormBtn{
     padding: 8px;

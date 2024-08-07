@@ -7,7 +7,8 @@ import * as Yup from "yup";
 
 
  
-const ContactForm = ({ setContacts }) => {
+const ContactForm = ({ addContact }) => {
+    
     const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
     const AddContactsSchema = Yup.object().shape({
         name: Yup.string().min(3, "Too Short!").max(50, "Too Long!").required("Required"),
@@ -18,23 +19,17 @@ const ContactForm = ({ setContacts }) => {
         name: "",
         number: ""
     }
-
-
-   
-
+  
     const handleSubmit = (values, actions) => {
         const newContact = {
             id: nanoid(),
             name: values.name,
             number: values.number
         };
-        setContacts(prevContacts => [
-            ...prevContacts, newContact
-             
-        ]);
+        
+        addContact(newContact);
         actions.resetForm();
-        console.log("submit");
-		console.log(newContact);
+        
 		
 	};
     
@@ -48,35 +43,33 @@ const ContactForm = ({ setContacts }) => {
                 validateOnBlur={true}
                 validateOnChange={true}
             >
-                {(errors) => {
-                    
-                    return (
-                        <Form className={css.form} >
-                            <label className={css.label}>
-                                <span>Name</span>
-                                <Field className={css.inputForm}
-                                    type="text"
-                                    name="name"
-                                    placeholder=""
-                                    required
-                                />
-                                <ErrorMessage name="name" component="div" className={css.error} />
-                            </label>
-                            <label className={css.label}>
-                                <span>Number</span>
-                                <Field className={css.inputForm}
-                                    type="tel"
-                                    name="number"
-                                    placeholder=""
-                                    required
-                                />
-                                <ErrorMessage name="number" component="div" className={css.error} />
-                            </label>
-                            <button className={css.ContactFormBtn} type="submit">Add Contact</button>
-                        </Form>
-                    )
-                }}
                 
+            
+                <Form className={css.form} >
+                    <label className={css.label}>
+                                <span>Name</span>
+                        <Field className={css.inputForm}
+                            type="text"
+                            name="name"
+                            placeholder=""
+                            
+                        />
+                        <ErrorMessage name="name" component="div" className={css.error} />
+                    </label>
+                    <label className={css.label}>
+                        <span>Number</span>
+                        <Field className={css.inputForm}
+                            type="tel"
+                            name="number"
+                            placeholder=""
+                            
+                        />
+                        <ErrorMessage name="number" component="div" className={css.error} />
+                    </label>
+                    <button className={css.ContactFormBtn} type="submit">Add Contact</button>
+                </Form>
+                    
+                              
             </Formik>
         </div>
     );
